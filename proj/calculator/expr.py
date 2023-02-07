@@ -203,3 +203,30 @@ class Assign(Expr):
 
     def __repr__(self) -> str:
         return f"Assign({self.left.__repr__()}, {self.right.__repr__()})"
+
+class IfOp(Expr):
+    """Class for 'then else condition if' expressions"""
+    
+    def __init__(self, then_expr: Expr, else_expr: Expr, cond_expr: Expr):
+        self.then_expr = then_expr
+        self.else_expr = else_expr
+        self.cond_expr = cond_expr
+    
+    def __str__(self) -> str:
+        """Algebraic notation, fully parenthesized"""
+        return f"(if {self.cond_expr} then {self.then_expr} else {self.else_expr})"
+
+    def __repr__(self) -> str:
+        """Returns string like call to constructor"""
+        return f"IfOp({self.then_expr.__repr__()}, {self.else_expr.__repr__()}, {self.cond_expr.__repr__()})"
+        
+    def eval(self) -> "IntConst":
+        """Return IntConst object for then_expr if cond_expr is nonzero,
+        otherwise return InstConst object for else_expr"""
+        cond_val = self.cond_expr.eval()
+        if cond_val.value != 0:
+            then_val = self.then_expr.eval()
+            return then_val
+        else:
+            else_val = self.else_expr.eval()
+            return else_val

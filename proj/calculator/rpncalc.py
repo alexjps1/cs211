@@ -71,6 +71,11 @@ def rpn_parse(text: str) -> list[expr.Expr]:
                 stack.append(expr.Assign(right, left))
             elif tok.kind == lex.TokenCat.VAR:
                 stack.append(expr.Var(tok.value))
+            elif tok.kind == lex.TokenCat.IF:
+                cond_expr = stack.pop()
+                else_expr = stack.pop()
+                then_expr = stack.pop()
+                stack.append(expr.IfOp(then_expr, else_expr, cond_expr))
     except lex.LexicalError as e:
         raise ValueError(f"Lexical error {e}")
         return
