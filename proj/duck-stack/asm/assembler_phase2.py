@@ -286,6 +286,7 @@ def assemble(lines: list[str]) -> list[int]:
             print(f"Syntax error in line {lnum}: {line}", file=sys.stderr)
         except KeyError as e:
             error_count += 1
+            print("phase 2 error")
             print(f"Unknown word in line {lnum}: {e}", file=sys.stderr)
         except Exception as e:
             error_count += 1
